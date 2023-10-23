@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: azure;
+            display: flex;
+            justify-content: center;
+
+        }
+
+        #form-section {
+            width: 200px;
+            height: 200px;
+            background-color: aqua;
+            margin: 3rem;
+            padding: 3rem;
+
+
+        }
+
+        #inner-form {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+
+
+        }
+
+        input {
+            margin: 0.5rem;
+        }
+
+        label {
+            margin: 0.5rem;
+        }
+
+        #btn {
+            height: 21px;
+            width: 100px;
+            text-align: center;
+            margin-left: 50px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+
+    <section id="form-section">
+        <form id="inner-form" onsubmit="saveOnLocal(event)">
+            <div id="msg"></div>
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="name">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email">
+            <label for="phone">Phone</label>
+            <input type="text" name="phone" id="phone">
+            <input type="submit" id="btn" value="submit">
+
+        </form>
+        <ul id="users">
+            <li>Mudii</li>
+        </ul>
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.1/axios.min.js"
+        integrity="sha512-emSwuKiMyYedRwflbZB2ghzX8Cw8fmNVgZ6yQNNXXagFzFOaQmbvQ1vmDkddHjm5AITcBIZfC7k4ShQSjgPAmQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        function saveOnLocal(event) {
+            event.preventDefault();
+            const name = event.target.name.value;
+            const email = event.target.email.value;
+            const phone = event.target.phone.value;
+
+            const obj = {
+                name,
+                email,
+                phone
+            };
+
+            axios.post("https://crudcrud.com/api/a34886a68b14441ebef9794532017bb7/addUser", obj)
+                .then((response) => {
+                    showOnDisplay(response.data)
+                    console.log(response);
+
+                })
+                .catch((err) => console.log(err))
+
+        }
+        function showOnDisplay(obj) {
+            const users = document.getElementById('users');
+            const li = document.createElement('li');
+            li.textContent = `${obj.name} ${obj.email} ${obj.phone}`;
+
+            const button = document.createElement('button');
+            // button.appendChild(document.createTextNode('delete'));
+            button.textContent = "Delete";
+            li.appendChild(button);
+            users.appendChild(li);
+
+            const editBtn = document.createElement('button');
+            // button.appendChild(document.createTextNode('delete'));
+            editBtn.textContent = "Edit";
+            li.appendChild(editBtn);
+            users.appendChild(li);
+
+            button.onclick = () => {
+                localStorage.removeItem(obj.email);
+                users.removeChild(li);
+            }
+
+            editBtn.onclick = () => {
+                localStorage.removeItem(obj.email);
+                users.removeChild(li);
+
+            }
+
+
+        }
+    </script>
+</body>
+
+</html>
