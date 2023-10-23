@@ -132,12 +132,34 @@
 
                     })
                     .catch((err) => console.log(err))
-                localStorage.removeItem(obj.email);
+
                 users.removeChild(li);
             }
 
             editBtn.onclick = () => {
-                localStorage.removeItem(obj.email);
+                const id = obj._id;
+                console.log(id);
+                document.getElementById('name').value = obj.name;
+                document.getElementById('email').value = obj.email;
+                document.getElementById('phone').value = obj.phone;
+                axios.delete(`https://crudcrud.com/api/a34886a68b14441ebef9794532017bb7/addUser/${id}`)
+                    .then((response) => {
+                        // showOnDisplay(response.data)
+                        console.log(response);
+
+                    })
+                    .catch((err) => console.log(err))
+
+
+
+                // axios.put(`https://crudcrud.com/api/a34886a68b14441ebef9794532017bb7/addUser/${id}`)
+                // .then((response) => {
+                //     // showOnDisplay(response.data)
+                //     console.log(response);
+
+                // })
+                // .catch((err) => console.log(err))
+
                 users.removeChild(li);
 
             }
