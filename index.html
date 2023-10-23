@@ -95,6 +95,14 @@
                 .catch((err) => console.log(err))
 
         }
+        window.addEventListener("DOMContentLoaded", () => {
+            const data = axios.get("https://crudcrud.com/api/a34886a68b14441ebef9794532017bb7/addUser")
+                .then((response) => {
+                    for (var i = 0; i < response.data.length; i++) {
+                        showOnDisplay(response.data[i]);
+                    }
+                })
+        })
         function showOnDisplay(obj) {
             const users = document.getElementById('users');
             const li = document.createElement('li');
