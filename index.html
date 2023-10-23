@@ -86,7 +86,7 @@
                 phone
             };
 
-            axios.post("https://crudcrud.com/api/a34886a68b14441ebef9794532017bb7/addUser", obj)
+            const data = axios.post("https://crudcrud.com/api/a34886a68b14441ebef9794532017bb7/addUser", obj)
                 .then((response) => {
                     showOnDisplay(response.data)
                     console.log(response);
@@ -100,12 +100,14 @@
                 .then((response) => {
                     for (var i = 0; i < response.data.length; i++) {
                         showOnDisplay(response.data[i]);
+
                     }
                 })
         })
         function showOnDisplay(obj) {
             const users = document.getElementById('users');
             const li = document.createElement('li');
+
             li.textContent = `${obj.name} ${obj.email} ${obj.phone}`;
 
             const button = document.createElement('button');
@@ -121,6 +123,15 @@
             users.appendChild(li);
 
             button.onclick = () => {
+                const id = obj._id;
+                console.log(id);
+                axios.delete(`https://crudcrud.com/api/a34886a68b14441ebef9794532017bb7/addUser/${id}`)
+                    .then((response) => {
+                        // showOnDisplay(response.data)
+                        console.log(response);
+
+                    })
+                    .catch((err) => console.log(err))
                 localStorage.removeItem(obj.email);
                 users.removeChild(li);
             }
